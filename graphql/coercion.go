@@ -2,6 +2,7 @@ package graphql
 
 import (
 	"encoding/json"
+	"reflect"
 )
 
 // CoerceList applies coercion from a single value to a list.
@@ -16,43 +17,69 @@ func CoerceList(v any) []any {
 		// already a slice no coercion required
 		vSlice = v
 	case []string:
-		if len(v) > 0 {
-			vSlice = []any{v[0]}
+		vSlice = make([]any, len(v))
+		for i := range v {
+			vSlice[i] = v[i]
 		}
 	case []json.Number:
-		if len(v) > 0 {
-			vSlice = []any{v[0]}
+		vSlice = make([]any, len(v))
+		for i := range v {
+			vSlice[i] = v[i]
 		}
 	case []bool:
-		if len(v) > 0 {
-			vSlice = []any{v[0]}
+		vSlice = make([]any, len(v))
+		for i := range v {
+			vSlice[i] = v[i]
 		}
 	case []map[string]any:
-		if len(v) > 0 {
-			vSlice = []any{v[0]}
+		vSlice = make([]any, len(v))
+		for i := range v {
+			vSlice[i] = v[i]
 		}
 	case []float64:
-		if len(v) > 0 {
-			vSlice = []any{v[0]}
+		vSlice = make([]any, len(v))
+		for i := range v {
+			vSlice[i] = v[i]
 		}
 	case []float32:
-		if len(v) > 0 {
-			vSlice = []any{v[0]}
+		vSlice = make([]any, len(v))
+		for i := range v {
+			vSlice[i] = v[i]
 		}
 	case []int:
-		if len(v) > 0 {
-			vSlice = []any{v[0]}
+		vSlice = make([]any, len(v))
+		for i := range v {
+			vSlice[i] = v[i]
 		}
 	case []int32:
-		if len(v) > 0 {
-			vSlice = []any{v[0]}
+		vSlice = make([]any, len(v))
+		for i := range v {
+			vSlice[i] = v[i]
 		}
 	case []int64:
-		if len(v) > 0 {
-			vSlice = []any{v[0]}
+		vSlice = make([]any, len(v))
+		for i := range v {
+			vSlice[i] = v[i]
 		}
 	default:
-		vSlice = []any{v}
+		// Fall back to reflection so any other slice or array type (e.g.
+		// []int8, []uint, []complex64, or a named slice type) keeps every
+		// element instead of being treated as a single scalar value.
+		rv := reflect.ValueOf(v)
+		switch rv.Kind() {
+		case reflect.Slice:
+			if rv.IsNil() {
+				return vSlice
+			}
+			fallthrough
+		case reflect.Array:
+			vSlice = make([]any, rv.Len())
+			for i := range vSlice {
+				vSlice[i] = rv.Index(i).Interface()
+			}
+		default:
+			vSlice = []any{v}
+		}
 	}
 	return vSlice
 }
