@@ -16,40 +16,49 @@ func CoerceList(v any) []any {
 		// already a slice no coercion required
 		vSlice = v
 	case []string:
-		if len(v) > 0 {
-			vSlice = []any{v[0]}
+		vSlice = make([]any, len(v))
+		for i, x := range v {
+			vSlice[i] = x
 		}
 	case []json.Number:
-		if len(v) > 0 {
-			vSlice = []any{v[0]}
+		vSlice = make([]any, len(v))
+		for i, x := range v {
+			vSlice[i] = x
 		}
 	case []bool:
-		if len(v) > 0 {
-			vSlice = []any{v[0]}
+		vSlice = make([]any, len(v))
+		for i, x := range v {
+			vSlice[i] = x
 		}
 	case []map[string]any:
-		if len(v) > 0 {
-			vSlice = []any{v[0]}
+		vSlice = make([]any, len(v))
+		for i, x := range v {
+			vSlice[i] = x
 		}
 	case []float64:
-		if len(v) > 0 {
-			vSlice = []any{v[0]}
+		vSlice = make([]any, len(v))
+		for i, x := range v {
+			vSlice[i] = x
 		}
 	case []float32:
-		if len(v) > 0 {
-			vSlice = []any{v[0]}
+		vSlice = make([]any, len(v))
+		for i, x := range v {
+			vSlice[i] = x
 		}
 	case []int:
-		if len(v) > 0 {
-			vSlice = []any{v[0]}
+		vSlice = make([]any, len(v))
+		for i, x := range v {
+			vSlice[i] = x
 		}
 	case []int32:
-		if len(v) > 0 {
-			vSlice = []any{v[0]}
+		vSlice = make([]any, len(v))
+		for i, x := range v {
+			vSlice[i] = x
 		}
 	case []int64:
-		if len(v) > 0 {
-			vSlice = []any{v[0]}
+		vSlice = make([]any, len(v))
+		for i, x := range v {
+			vSlice[i] = x
 		}
 	default:
 		vSlice = []any{v}
